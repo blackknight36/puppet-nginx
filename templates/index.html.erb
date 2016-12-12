@@ -1,0 +1,21 @@
+<html>
+
+<head>
+<title><%= @fqdn %></title>
+</head>
+
+<body style="margin:50px 0px; padding:0px; text-align:center; background: LightGray;">
+
+<h1>Welcome to <%= @fqdn %></h1>
+
+<pre id="content" style="border: 1px solid; width: 900px; margin:0px auto; padding:15px; background: Pink;">
+
+<p class='quote'><%= @kernel %> <%= @fqdn %> <%= @kernelrelease %>.<%= @architecture %></p>
+
+</pre>
+
+<p>Yum repos are available <a href='/repos/'>here.</a></p>
+
+</body>
+
+</html>
