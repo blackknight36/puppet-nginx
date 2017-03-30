@@ -1,8 +1,17 @@
 class nginx($manage_firewall = true, $use_nfs = true) {
 
-    package { 'nginx':
+    package { [
+        'collectd-nginx',
+        'nginx',
+        ]:
         ensure => installed,
-    } ->
+    }
+
+    file { '/etc/collectd.d/nginx.conf':
+        source  => 'puppet:///modules/nginx/collectd.d/nginx.conf',
+        require => Package['collectd-nginx'],
+        notify  => Service['collectd'],
+    }
 
     file { '/usr/share/nginx/html/index.html':
         ensure  => file,
@@ -10,8 +19,8 @@ class nginx($manage_firewall = true, $use_nfs = true) {
     }
 
     file { '/etc/nginx/nginx.conf':
-        ensure => file,
-        source => 'puppet:///modules/nginx/nginx.conf',
+        source  => 'puppet:///modules/nginx/nginx.conf',
+        require => Package['nginx'],
     } ~>
 
     service { 'nginx':
