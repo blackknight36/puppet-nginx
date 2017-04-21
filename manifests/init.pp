@@ -1,4 +1,9 @@
-class nginx($manage_firewall = true, $use_nfs = true) {
+# Installs nginx web server
+
+class nginx(
+    Boolean $manage_firewall = true,
+    Boolean $use_nfs = true
+    ) {
 
     package { [
         'collectd-nginx',
