@@ -3,6 +3,7 @@
 class nginx::ssl_site (
     String $site_name = $::fqdn,
     Boolean $manage_firewall = true,
+    String $conf_template = 'nginx/ssl.conf.erb',
     ) {
 
     File {
@@ -16,7 +17,7 @@ class nginx::ssl_site (
     }
 
     file { "/etc/nginx/conf.d/${site_name}.ssl.conf":
-        content => template('nginx/ssl.conf.erb'),
+        content => template($conf_template),
     }
 
     file { "/etc/pki/tls/certs/${site_name}.crt":
