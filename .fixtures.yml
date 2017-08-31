@@ -1,0 +1,8 @@
+fixtures:
+    symlinks:
+      nginx: "#{source_dir}"
+    repositories:
+      selinux:
+        repo: 'git://mdct-pagure.dartcontainer.com/puppet/mdct-selinux.git'
+    forge_modules:
+      firewall: 'puppetlabs-firewall'
