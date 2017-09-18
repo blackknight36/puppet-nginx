@@ -22,7 +22,7 @@ describe 'nginx::ssl_site' do
         }
       end
 
-      it { is_expected.to contain_file("/etc/nginx/conf.d/#{node}.ssl.conf") }
+      it { is_expected.to contain_file("/etc/nginx/conf.d/#{title}.ssl.conf") }
 
       it do
         is_expected.to contain_file("/etc/pki/tls/certs/#{title}.crt")

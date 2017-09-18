@@ -6,6 +6,9 @@ define nginx::ssl_site (
     String $conf_template = 'nginx/ssl.conf.erb',
     ) {
 
+    # hiera does not allow periods in key names therefore we must substitute
+    $_site_name = regsubst($site_name, '\.', '_', 'G')
+
     if $manage_firewall == true {
         firewall { '100 allow https':
             dport  => 443,
@@ -27,13 +30,13 @@ define nginx::ssl_site (
         ;
 
         "/etc/pki/tls/certs/${site_name}.crt":
-            content   => lookup('nginx::ssl_site::public_key'),
+            content   => lookup("nginx.ssl_site.${_site_name}.public_key"),
             show_diff => false,
             mode      => '0444',
         ;
 
         "/etc/pki/tls/private/${site_name}.key":
-            content   => lookup('nginx::ssl_site::private_key'),
+            content   => lookup("nginx.ssl_site.${_site_name}.private_key"),
             show_diff => false,
             mode      => '0440',
         ;
