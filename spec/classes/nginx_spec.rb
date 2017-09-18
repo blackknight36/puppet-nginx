@@ -42,13 +42,25 @@ describe 'nginx' do
       end
 
       context "manage_firewall => true" do
-        let(:params) {{ 'manage_firewall' => true }}
-        it { is_expected.to contain_class('dart::subsys::firewall::http') }
+        let(:params) {{
+          :manage_firewall => true
+        }}
+
+        it { is_expected.to contain_firewall('100 allow http')
+          .with({
+            "dport" => "80",
+            "proto" => "tcp",
+            "action" => "accept",
+          })
+        }
       end
 
       context "use_nfs => true" do
-        let(:params) {{ 'use_nfs' => true }}
-        it { is_expected.to contain_selinux__boolean("httpd_use_nfs") .with({ "value" => "on", }) }
+        let(:params) {{
+          :use_nfs => true
+        }}
+
+        it { is_expected.to contain_selboolean("httpd_use_nfs") .with({ "value" => "on", }) }
       end
 
     end

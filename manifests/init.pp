@@ -34,12 +34,17 @@ class nginx(
     }
 
     if $manage_firewall == true {
-        include 'dart::subsys::firewall::http'
+        firewall { '100 allow http':
+            dport  => 80,
+            proto  => tcp,
+            action => accept,
+        }
     }
 
     if $use_nfs == true {
-        selinux::boolean { 'httpd_use_nfs':
-            value => 'on',
+        selboolean { 'httpd_use_nfs':
+            value      => 'on',
+            persistent => true,
         }
     }
 

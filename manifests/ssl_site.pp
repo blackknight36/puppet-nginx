@@ -13,7 +13,11 @@ class nginx::ssl_site (
     }
 
     if $manage_firewall == true {
-        include 'dart::subsys::firewall::https'
+        firewall { '100 allow https':
+            dport  => 443,
+            proto  => tcp,
+            action => accept,
+        }
     }
 
     file { "/etc/nginx/conf.d/${site_name}.ssl.conf":
