@@ -15,22 +15,36 @@ describe 'nginx' do
               "source" => "puppet:///modules/nginx/collectd.d/nginx.conf",
               "require" => "Package[collectd-nginx]",
               "notify" => "Service[collectd]",
-              })
+            })
       end
 
-      it do
-        is_expected.to contain_file("/usr/share/nginx/html/index.html")
-            .with({
-              "ensure" => "file",
+      context "conf_source => 'puppet:///modules/nginx/nginx.conf'" do
+        let(:params) {{
+          :conf_source => 'puppet:///modules/nginx/nginx.conf'
+        }}
+
+        it do
+          is_expected.to contain_file("/etc/nginx/nginx.conf")
+              .with({
+                "source" => 'puppet:///modules/nginx/nginx.conf',
               })
+              .that_requires('Package[nginx]')
+        end
       end
 
-      it do
-        is_expected.to contain_file("/etc/nginx/nginx.conf")
-            .with({
-              "source" => "puppet:///modules/nginx/nginx.conf",
-              "require" => "Package[nginx]",
+      context "conf_content => 'test'" do
+        let(:params) {{
+          :conf_content => 'test'
+        }}
+
+        it do
+          is_expected.to contain_file("/etc/nginx/nginx.conf")
+              .with({
+                "source" => nil,
+                "content" => 'test',
               })
+              .that_requires('Package[nginx]')
+        end
       end
 
       it do
@@ -38,7 +52,7 @@ describe 'nginx' do
             .with({
               "ensure" => "running",
               "enable" => true,
-              })
+            })
       end
 
       context "manage_firewall => true" do
