@@ -34,11 +34,7 @@ class nginx(
     }
 
     if $manage_firewall == true {
-        firewall { '100 allow http':
-            dport  => 80,
-            proto  => tcp,
-            action => accept,
-        }
+        include 'nginx::firewall::http'
     }
 
     if $use_nfs == true {

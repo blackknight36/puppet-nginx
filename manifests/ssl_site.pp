@@ -10,11 +10,7 @@ define nginx::ssl_site (
     $_site_name = regsubst($site_name, '\.', '_', 'G')
 
     if $manage_firewall == true {
-        firewall { '100 allow https':
-            dport  => 443,
-            proto  => tcp,
-            action => accept,
-        }
+        include 'nginx::firewall::https'
     }
 
     file {

@@ -46,13 +46,7 @@ describe 'nginx' do
           :manage_firewall => true
         }}
 
-        it { is_expected.to contain_firewall('100 allow http')
-          .with({
-            "dport" => "80",
-            "proto" => "tcp",
-            "action" => "accept",
-          })
-        }
+        it { is_expected.to contain_class('nginx::firewall::http') }
       end
 
       context "use_nfs => true" do

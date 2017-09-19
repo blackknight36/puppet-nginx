@@ -13,13 +13,7 @@ describe 'nginx::ssl_site' do
           :manage_firewall => true
         }}
 
-        it { is_expected.to contain_firewall('100 allow https')
-          .with({
-            "dport" => "443",
-            "proto" => "tcp",
-            "action" => "accept",
-          })
-        }
+        it { is_expected.to contain_class('nginx::firewall::https') }
       end
 
       it { is_expected.to contain_file("/etc/nginx/conf.d/#{title}.ssl.conf") }
