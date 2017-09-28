@@ -5,7 +5,9 @@
 #
 # === Parameters
 #
-# ==== Optional
+# [*network_connect*]
+#   Configure SE Linux to allow nginx scripts and modules to connect to the
+#   network using TCP.  One of: true or false (default).
 #
 # [*conf_content*]
 #   Literal content for the smb.conf file.  If neither "content" nor
@@ -26,6 +28,7 @@
 class nginx (
     Boolean $manage_firewall = true,
     Boolean $use_nfs = false,
+    Boolean $network_connect = false,
     Optional[String] $conf_content = undef,
     Optional[String] $conf_source = undef,
     ) {
@@ -59,6 +62,14 @@ class nginx (
     }
 
     if $facts['selinux'] == true {
+        selboolean { 'httpd_can_network_connect':
+            persistent => true,
+            value      => $network_connect ? {
+              true  => 'on',
+              false => 'off',
+            }
+        }
+
         selboolean { 'httpd_use_nfs':
             persistent => true,
             value      => $use_nfs ? {

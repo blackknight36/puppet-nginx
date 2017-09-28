@@ -63,6 +63,38 @@ describe 'nginx' do
         it { is_expected.to contain_class('nginx::firewall::http') }
       end
 
+      context "network_connect => true" do
+        let(:facts) { facts.merge(:selinux => true) }
+
+        let(:params) {{
+          :network_connect => true
+        }}
+
+        it do
+          is_expected.to contain_selboolean("httpd_can_network_connect")
+            .with({
+              "value" => "on",
+              "persistent" => true,
+            })
+        end
+      end
+
+      context "network_connect => false" do
+        let(:facts) { facts.merge(:selinux => true) }
+
+        let(:params) {{
+          :network_connect => false
+        }}
+
+        it do
+          is_expected.to contain_selboolean("httpd_can_network_connect")
+            .with({
+              "value" => "off",
+              "persistent" => true,
+            })
+        end
+      end
+
       context "use_nfs => true" do
         let(:facts) { facts.merge(:selinux => true) }
 
