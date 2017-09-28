@@ -5,6 +5,9 @@
 #
 # === Parameters
 #
+# [*manage_firewall*]
+#   Enables automatic management of iptables firewall rules.  Default to true.
+#
 # [*network_connect*]
 #   Configure SE Linux to allow nginx scripts and modules to connect to the
 #   network using TCP.  One of: true or false (default).
