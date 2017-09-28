@@ -15,13 +15,17 @@
 #   URI of the smb.conf file content.  If neither "content" nor "source" is
 #   given, the content of the file will be left unmanaged.
 #
+# [*use_nfs*]
+#   Configure SE Linux to allow the serving of content reached via NFS.
+#   One of: true or false (default).
+#
 # === Authors
 #
 #   Michael Watters <michael.watters@dart.biz>
 
-class nginx(
+class nginx (
     Boolean $manage_firewall = true,
-    Boolean $use_nfs = true,
+    Boolean $use_nfs = false,
     Optional[String] $conf_content = undef,
     Optional[String] $conf_source = undef,
     ) {
@@ -54,10 +58,13 @@ class nginx(
         include 'nginx::firewall::http'
     }
 
-    if $use_nfs == true {
+    if $facts['selinux'] == true {
         selboolean { 'httpd_use_nfs':
-            value      => 'on',
             persistent => true,
+            value      => $use_nfs ? {
+              true  => 'on',
+              false => 'off',
+            }
         }
     }
 

@@ -64,11 +64,35 @@ describe 'nginx' do
       end
 
       context "use_nfs => true" do
+        let(:facts) { facts.merge(:selinux => true) }
+
         let(:params) {{
           :use_nfs => true
         }}
 
-        it { is_expected.to contain_selboolean("httpd_use_nfs") .with({ "value" => "on", }) }
+        it do
+          is_expected.to contain_selboolean("httpd_use_nfs")
+            .with({
+              "value" => "on",
+              "persistent" => true,
+            })
+        end
+      end
+
+      context "use_nfs => false" do
+        let(:facts) { facts.merge(:selinux => true) }
+
+        let(:params) {{
+          :use_nfs => false
+        }}
+
+        it do
+          is_expected.to contain_selboolean("httpd_use_nfs")
+            .with({
+              "value" => "off",
+              "persistent" => true,
+            })
+        end
       end
 
     end
