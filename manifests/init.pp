@@ -13,11 +13,11 @@
 #   network using TCP.  One of: true or false (default).
 #
 # [*conf_content*]
-#   Literal content for the smb.conf file.  If neither "content" nor
+#   Literal content for the nginx.conf file.  If neither "content" nor
 #   "source" is given, the content of the file will be left unmanaged.
 #
 # [*conf_source*]
-#   URI of the smb.conf file content.  If neither "content" nor "source" is
+#   URI of the nginx.conf file content.  If neither "content" nor "source" is
 #   given, the content of the file will be left unmanaged.
 #
 # [*use_nfs*]
