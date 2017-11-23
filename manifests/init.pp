@@ -36,17 +36,8 @@ class nginx (
     Optional[String] $conf_source = undef,
     ) {
 
-    package { [
-        'collectd-nginx',
-        'nginx',
-        ]:
+    package { 'nginx':
         ensure => installed,
-    }
-
-    file { '/etc/collectd.d/nginx.conf':
-        source  => 'puppet:///modules/nginx/collectd.d/nginx.conf',
-        require => Package['collectd-nginx'],
-        notify  => Service['collectd'],
     }
 
     file { '/etc/nginx/nginx.conf':
