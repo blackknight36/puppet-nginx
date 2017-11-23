@@ -3,6 +3,7 @@
 define nginx::ssl_site (
     String $site_name = $name,
     String $conf_template = 'nginx/ssl.conf.erb',
+    String $document_root = '/usr/share/nginx/html',
     Boolean $use_certbot = false,
     ) {
 
