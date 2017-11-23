@@ -62,6 +62,7 @@ class nginx (
 
     if $manage_firewall == true {
         include 'nginx::firewall::http'
+        include 'nginx::firewall::https'
     }
 
     if $facts['selinux'] == true {
