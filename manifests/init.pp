@@ -32,6 +32,7 @@ class nginx (
     Boolean $manage_firewall = true,
     Boolean $use_nfs = false,
     Boolean $network_connect = false,
+    Boolean $enable_homedirs = false,
     Optional[String] $conf_content = undef,
     Optional[String] $conf_source = undef,
     ) {
@@ -68,6 +69,14 @@ class nginx (
         selboolean { 'httpd_use_nfs':
             persistent => true,
             value      => $use_nfs ? {
+              true  => 'on',
+              false => 'off',
+            }
+        }
+
+        selboolean { 'httpd_enable_homedirs':
+            persistent => true,
+            value      => $enable_homedirs ? {
               true  => 'on',
               false => 'off',
             }
